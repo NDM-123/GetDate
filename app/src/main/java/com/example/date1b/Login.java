@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        email = findViewById(R.id.loginPassword);
+        email = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
         loginBtn = findViewById(R.id.loginBtn);
         gotoRegister = findViewById(R.id.gotoRegister);
@@ -55,7 +55,7 @@ public class Login extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(Login.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
                 }
