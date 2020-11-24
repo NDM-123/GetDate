@@ -14,9 +14,10 @@
         <activity android:name=".Admin"></activity>
         <activity android:name=".Register" />
         <activity android:name=".MainActivity" />
+        <!--Android icon name and first activity to upload-->
         <activity
             android:name=".Login"
-            android:label="Login screen">
+            android:label="Place the date">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

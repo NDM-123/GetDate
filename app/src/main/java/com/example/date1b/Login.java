@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
 public class Login extends AppCompatActivity {
     EditText email,password;
     Button loginBtn,gotoRegister;
@@ -30,7 +31,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        // Firebase call to authenticate login and database data
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
@@ -38,18 +39,19 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.loginPassword);
         loginBtn = findViewById(R.id.loginBtn);
         gotoRegister = findViewById(R.id.gotoRegister);
-
+        //maybe to add btn forgot password
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkField(email);
                 checkField(password);
-
+                // if it's valid go to next activity
                 if(valid){
                 fAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Toast.makeText(Login.this,"Logged in Successfully",Toast.LENGTH_SHORT).show();
+                       //check if the current user is admin or regular user.
                         checkIfAdmin(authResult.getUser().getUid());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -71,7 +73,7 @@ public class Login extends AppCompatActivity {
 
 
     }
-
+    //help function to check if is char legal. need to add some things.
     public boolean checkField(EditText textField){
         if(textField.getText().toString().isEmpty()){
             textField.setError("Error");
@@ -83,16 +85,18 @@ public class Login extends AppCompatActivity {
         return valid;
     }
 
-    //if someone tries to login when someone else is logged in
+    //if user wants to enter app after existed he enters as a user
     @Override
     protected void onStart(){
         super.onStart();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
+      //  if(FirebaseAuth.getInstance().getCurrentUser() != null){
+      //      startActivity(new Intent(getApplicationContext(),MainActivity.class));
+      //      finish();
+      //  }
     }
+
     private void checkIfAdmin(String uid){
+        //get collection "Users from Database
         DocumentReference dr = fStore.collection("Users").document(uid);
         // Get data from document
         dr.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -100,10 +104,17 @@ public class Login extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("TAG","onSuccess: " + documentSnapshot.getData());
               // Check if user is admin
-                if(documentSnapshot.getString("isAdmin") != null){
+                if(documentSnapshot.getString("isAdmin").equalsIgnoreCase("1")){
               startActivity(new Intent(getApplicationContext(),Admin.class));
               finish();
                 }
+                // Haven't been approved yet
+                if(documentSnapshot.getString("isAdmin").equalsIgnoreCase("0")){
+                    Toast.makeText(Login.this,"Your admin request hasn't been approved yet...\nRedirected to User",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    finish();
+                }
+                // Is a regular user
                 if(documentSnapshot.getString("isUser") != null){
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                     finish();
