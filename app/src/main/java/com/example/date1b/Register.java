@@ -47,10 +47,10 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
-        registerBtn = findViewById(R.id.registerBtn);
+//        registerBtn = findViewById(R.id.registerBtn);
         goToLogin = findViewById(R.id.gotoLogin);
-        isAdmin = findViewById(R.id.isAdmin);
-        isUser = findViewById(R.id.isUser);
+//        isAdmin = findViewById(R.id.isAdmin);
+//        isUser = findViewById(R.id.isUser);
 
         // Check box fill in and change boolean
         isAdmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -84,6 +84,9 @@ public class Register extends AppCompatActivity {
 
                 if(valid){
                     //start the user registration
+                    System.out.println(password.getText().toString());
+
+
                     fAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override

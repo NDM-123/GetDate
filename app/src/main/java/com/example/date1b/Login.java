@@ -55,7 +55,7 @@ public class Login extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         Toast.makeText(Login.this,"Logged in Successfully",Toast.LENGTH_SHORT).show();
                        //check if the current user is admin or regular user.
-                        checkIfAdmin(authResult.getUser().getUid());
+                        //checkIfAdmin(authResult.getUser().getUid());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -97,33 +97,33 @@ public class Login extends AppCompatActivity {
       //      finish();
       //  }
     }
-
-    private void checkIfAdmin(String uid){
-        //get collection "Users from Database
-        DocumentReference dr = fStore.collection("Users").document(uid);
-        // Get data from document
-        dr.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Log.d("TAG","onSuccess: " + documentSnapshot.getData());
-              // Check if user is admin
-                if(documentSnapshot.getString("isAdmin").equalsIgnoreCase("1")){
-              startActivity(new Intent(getApplicationContext(),Admin.class));
-              finish();
-                }
-                // Haven't been approved yet
-                if(documentSnapshot.getString("isAdmin").equalsIgnoreCase("0")){
-                    Toast.makeText(Login.this,"Your admin request hasn't been approved yet...\nRedirected to User",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    finish();
-                }
-                // Is a regular user
-                if(documentSnapshot.getString("isUser") != null){
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    finish();
-                }
-            }
-        });
-
-    }
+//
+//    private void checkIfAdmin(String uid){
+//        //get collection "Users from Database
+//        DocumentReference dr = fStore.collection("Users").document(uid);
+//        // Get data from document
+//        dr.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                Log.d("TAG","onSuccess: " + documentSnapshot.getData());
+//              // Check if user is admin
+//                if(documentSnapshot.getString("isAdmin").equalsIgnoreCase("1")){
+//              startActivity(new Intent(getApplicationContext(),Admin.class));
+//              finish();
+//                }
+//                // Haven't been approved yet
+//                if(documentSnapshot.getString("isAdmin").equalsIgnoreCase("0")){
+//                    Toast.makeText(Login.this,"Your admin request hasn't been approved yet...\nRedirected to User",Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                    finish();
+//                }
+//                // Is a regular user
+//                if(documentSnapshot.getString("isUser") != null){
+//                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                    finish();
+//                }
+//            }
+//        });
+//
+//    }
 }
