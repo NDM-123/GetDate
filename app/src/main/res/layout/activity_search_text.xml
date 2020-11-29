@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchText">
+
+    <TextView
+        android:id="@+id/titlel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="121dp"
+        android:layout_marginBottom="88dp"
+        android:text="Place a Date"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/MapText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/SearchBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="97dp"
+        android:layout_marginEnd="183dp"
+        android:text="Enter a location"
+        app:layout_constraintBottom_toTopOf="@+id/SearchTextBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SearchTextMsg" />
+
+    <TextView
+        android:id="@+id/SearchTextMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="259dp"
+        android:text="Search"
+        android:textColor="#040000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/SearchBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titlel" />
+
+    <Button
+        android:id="@+id/SearchTextBtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="97dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="451dp"
+        android:backgroundTint="#FFFFFF"
+        android:text="Go"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/AdvSearchBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SearchBar" />
+
+    <Button
+        android:id="@+id/AdvSearchBtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginBottom="451dp"
+        android:backgroundTint="#FFFFFF"
+        android:text="Advanced Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/SearchTextBtn"
+        app:layout_constraintTop_toBottomOf="@+id/SearchBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
