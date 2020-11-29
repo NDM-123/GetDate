@@ -48,28 +48,28 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
-//        registerBtn = findViewById(R.id.registerBtn);
-        goToLogin = findViewById(R.id.gotoLogin);
+        registerBtn = findViewById(R.id.gotoLogin);
+//        goToLogin = findViewById(R.id.gotoLogin);
 //        isAdmin = findViewById(R.id.isAdmin);
 //        isUser = findViewById(R.id.isUser);
 
         // Check box fill in and change boolean
-        isAdmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(buttonView.isChecked())isUser.setChecked(false);
-
-            }
-            });
-        isUser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked())isAdmin.setChecked(false);
-
-            }
-        });
+//        isAdmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if(buttonView.isChecked())isUser.setChecked(false);
+//
+//            }
+//            });
+//        isUser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(buttonView.isChecked())isAdmin.setChecked(false);
+//
+//            }
+//        });
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +78,10 @@ public class Register extends AppCompatActivity {
                 checkField(password);
                 checkField(phone);
 
-                //Check if admin/user set
-                if(!(isAdmin.isChecked() ||  isUser.isChecked())){
-                    Toast.makeText(Register.this, "Select account type", Toast.LENGTH_SHORT).show();
-                }
+//                //Check if admin/user set
+//                if(!(isAdmin.isChecked() ||  isUser.isChecked())){
+//                    Toast.makeText(Register.this, "Select account type", Toast.LENGTH_SHORT).show();
+//                }
 
                 if(valid){
                     //start the user registration
@@ -101,9 +101,9 @@ public class Register extends AppCompatActivity {
                             userInfo.put("FullName",fullName.getText().toString());
                             userInfo.put("UserEmail",email.getText().toString());
                             userInfo.put("PhoneNumber",phone.getText().toString());
-                            //If choose user
-                            if(isUser.isChecked())userInfo.put("isUser","1");
-                            if(isAdmin.isChecked())userInfo.put("isAdmin","0");
+//                            //If choose user
+//                            if(isUser.isChecked())userInfo.put("isUser","1");
+//                            if(isAdmin.isChecked())userInfo.put("isAdmin","0");
                             dr.set(userInfo);
                             //after register go to login
                             startActivity(new Intent(getApplicationContext(),Login.class));
@@ -118,12 +118,12 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
-        goToLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startActivity(new Intent(getApplicationContext(),Login.class));
-            }
-        });
+//        goToLogin.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                startActivity(new Intent(getApplicationContext(),Login.class));
+//            }
+//        });
 
     }
 
