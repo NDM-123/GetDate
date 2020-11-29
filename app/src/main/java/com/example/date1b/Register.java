@@ -33,6 +33,7 @@ public class Register extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     CheckBox isAdmin,isUser;
+//adding comments
 
 
     @Override
