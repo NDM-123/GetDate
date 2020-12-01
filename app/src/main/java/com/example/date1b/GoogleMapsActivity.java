@@ -22,19 +22,31 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyCallback,LocationListener {
+public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private GoogleMap mMap;
-    protected double latitude,longitude;
+    protected double latitude, longitude;
+    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +57,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
     }
 
     /**
@@ -52,7 +65,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
      * we just add a marker near Sydney, Australia.
-     *
+     * <p>
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -68,8 +81,8 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             };
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
 
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -79,6 +92,37 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         // Add a marker in persons location and move the camera
         mMap.addMarker(new MarkerOptions().position(myLoc).title("Marker in myLoc"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
+
+        addMarkers();
+        googleMap.setOnMarkerClickListener(this);
+        // If we would want to set images for location instead of red marks:
+
+        //setting the size of marker in map by using Bitmap Class
+//        int height = 80;
+//        int width = 80;
+//        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.scooter);
+//        Bitmap b=bitmapdraw.getBitmap();
+//        final Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+//        mUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot s : dataSnapshot.getChildren()){
+//                    Log.e("Count " ,""+s.getChildrenCount());
+//                    Map<String, Object> td = (HashMap<String,Object>) s.getValue();
+//                    MarkerInfo loc = s.getValue(MarkerInfo.class);
+//                    LatLng location=new LatLng(Double.parseDouble(loc.latitude),Double.parseDouble(loc.longitude));
+//                    mMap.addMarker(new MarkerOptions().position(location).title(loc.name));     //.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+//                   // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
+//
+//                }
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -102,6 +146,54 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
     public void onProviderDisabled(String provider) {
 
     }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    private void addMarkers() {
+
+
+        fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+
+                if (e != null) {
+                
+                }
+
+                for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
+
+                    double lat = Double.parseDouble(dc.getDocument().getData().get("latitude").toString());
+                    double lon = Double.parseDouble(dc.getDocument().getData().get("longitude").toString());
+                    String name = dc.getDocument().getData().get("name").toString();
+                    LatLng location = new LatLng(lat, lon);
+                    mMap.addMarker(new MarkerOptions().position(location).title(name));
+
+                }
+            }
+        });
+    }
+
 }
+
+
+
 
 
