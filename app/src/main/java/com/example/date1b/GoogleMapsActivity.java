@@ -175,7 +175,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
                 if (e != null) {
-                
+
                 }
 
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {

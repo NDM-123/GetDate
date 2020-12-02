@@ -102,7 +102,7 @@ public class Register extends AppCompatActivity {
                             userInfo.put("UserEmail",email.getText().toString());
                             userInfo.put("PhoneNumber",phone.getText().toString());
 //                            //If choose user
-//                            if(isUser.isChecked())userInfo.put("isUser","1");
+                            userInfo.put("isUser","1");
 //                            if(isAdmin.isChecked())userInfo.put("isAdmin","0");
                             dr.set(userInfo);
                             //after register go to login
