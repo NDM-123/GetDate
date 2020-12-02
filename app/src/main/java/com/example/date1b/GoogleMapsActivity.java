@@ -46,7 +46,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
     private GoogleMap mMap;
     protected double latitude, longitude;
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-    ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +86,15 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
 
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
-        LatLng myLoc = new LatLng(latitude, longitude);
+        LatLng myLoc;
+        if(location == null) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            myLoc = new LatLng(latitude, longitude);
+        }else{
+            //  Ariel Location
+             myLoc = new LatLng(32.1046, 35.1745);
+        }
         // Add a marker in persons location and move the camera
         mMap.addMarker(new MarkerOptions().position(myLoc).title("Marker in myLoc"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
