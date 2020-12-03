@@ -16,14 +16,20 @@ package com.example.date1b;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -37,14 +43,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+import java.util.HashMap;
+import java.util.Map;
+
+public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
     private GoogleMap mMap;
-    protected double latitude, longitude;
+    protected double Tlatitude, Tlongitude;
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
 
@@ -71,7 +81,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             int PERMISSION_ALL = 1;
@@ -87,10 +97,10 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LatLng myLoc;
-        if(location == null) {
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            myLoc = new LatLng(latitude, longitude);
+        if(location != null) {
+            Tlongitude = location.getLongitude();
+            Tlatitude = location.getLatitude();
+            myLoc = new LatLng(Tlatitude, Tlongitude);
         }else{
             //  Ariel Location
              myLoc = new LatLng(32.1046, 35.1745);
@@ -101,6 +111,14 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
         addMarkers();
         googleMap.setOnMarkerClickListener(this);
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                addMark(latLng);
+                     //   .snippet("Your marker snippet"));
+            }
+        });
         // If we would want to set images for location instead of red marks:
 
         //setting the size of marker in map by using Bitmap Class
@@ -131,10 +149,55 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 //        });
     }
 
+    private void addMark(final LatLng latLng) {
+        // Init the dialog object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter description");
+
+// Set up the input
+        final EditText input = new EditText(this);
+
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String description;
+                description = input.getText().toString();
+
+                mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(description));
+
+                // Add a new document with a generated id.
+                Map<String, Object> data = new HashMap<>();
+                data.put("latitude", Double.toString(latLng.latitude));
+                data.put("longitude", Double.toString(latLng.longitude));
+                data.put("name", description);
+
+                DocumentReference newMarker = fStore.collection("Locations").document();
+
+                newMarker.set(data);
+            }
+        });
+        builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+
     @Override
     public void onLocationChanged(Location location) {
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
+        Tlongitude = location.getLongitude();
+        Tlatitude = location.getLatitude();
 
     }
 
@@ -153,20 +216,6 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -190,11 +239,45 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                     double lon = Double.parseDouble(dc.getDocument().getData().get("longitude").toString());
                     String name = dc.getDocument().getData().get("name").toString();
                     LatLng location = new LatLng(lat, lon);
-                    mMap.addMarker(new MarkerOptions().position(location).title(name));
+
+                    mMap.addMarker(new MarkerOptions().position(location).title(name).draggable(true));
 
                 }
             }
         });
+    }
+
+//  Get text from user
+  private String getText() {
+        // Init the dialog object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter text");
+
+// Set up the input
+        final EditText input = new EditText(this);
+
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+        return input.getText().toString();
     }
 
 }
