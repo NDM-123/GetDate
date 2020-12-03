@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Place the date");
         mStorageRef = FirebaseStorage.getInstance().getReference();
         // Logout button with a listener
         logout = findViewById(R.id.logoutBtn);
