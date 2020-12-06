@@ -6,6 +6,7 @@ public class MarkerInfo {
     public String latitude;
     public String longitude;
 
+
     public MarkerInfo(){               //default constructor which invokes on object creation of respectisve class in MainActivity.java
 
     }
@@ -14,5 +15,10 @@ public class MarkerInfo {
         this.name=name;
         this.latitude=latitude;
         this.longitude=longitude;
+    }
+
+
+    public String getString(String a) {
+        return name;
     }
 }
