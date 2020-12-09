@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/removeText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/removeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:text="Remove location"
+        app:layout_constraintBottom_toTopOf="@+id/autoCompleteSearchBar"
+        app:layout_constraintEnd_toEndOf="@+id/autoCompleteSearchBar"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteSearchBar"
+        app:layout_constraintTop_toBottomOf="@+id/app_logo" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteSearchBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/removemylocation"
+        android:dropDownWidth="200dp"
+        android:dropDownHorizontalOffset="-30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/removeText"
+        tools:text="Enter location name" />
+
+    <EditText
+        android:id="@+id/editLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editLongitude"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/removemylocation"
+        tools:text="Latitude" />
+
+    <EditText
+        android:id="@+id/editLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/submitRemove"
+        app:layout_constraintStart_toStartOf="@+id/editLatitude"
+        app:layout_constraintTop_toBottomOf="@+id/editLatitude"
+        tools:text="Longitude" />
+
+    <Button
+        android:id="@+id/submitRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editLongitude"
+        app:layout_constraintStart_toStartOf="@+id/editLongitude"
+        app:layout_constraintTop_toBottomOf="@+id/editLongitude" />
+
+    <Button
+        android:id="@+id/removemylocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="105dp"
+        android:text="Remove my location"
+        app:layout_constraintBottom_toTopOf="@+id/editLatitude"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteSearchBar"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteSearchBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
