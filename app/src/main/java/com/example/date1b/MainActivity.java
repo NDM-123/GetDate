@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         addPlace = findViewById(R.id.addLocationBtn);
         searchBar = findViewById(R.id.SearchBar);
         searchT = findViewById(R.id.SearchTextBtn);
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), GoogleMapsActivity.class));
             }
         });
+
         searchT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,12 +83,21 @@ public class MainActivity extends AppCompatActivity {
 
                 startActivity(intent);
                 //  Recieve string from search bar
-                String name = "";
-                  intent.putExtra("name", name);
+                String place = "";
+                place = searchBar.getText().toString();
+                intent.putExtra("place_name", place);
            //     finish();
 
                 }
 
+        });
+        addPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+            }
         });
 
             }

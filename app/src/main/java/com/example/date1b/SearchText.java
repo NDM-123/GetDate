@@ -6,7 +6,9 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -24,9 +26,11 @@ public class SearchText extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
         Intent i = getIntent();
+        //
+        final String place = getIntent().getStringExtra("name_place");
         ArrayList<MarkerInfo> list = (ArrayList<MarkerInfo>) i
                 .getSerializableExtra("Locations");
-
+        Toast.makeText(SearchText.this,place,Toast.LENGTH_SHORT).show();
         fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -38,7 +42,7 @@ public class SearchText extends AppCompatActivity{
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
 
                     String name = dc.getDocument().getData().get("name").toString();
-
+              //  if (place == name)
                     al.add(name);
                 }
 
