@@ -10,50 +10,43 @@
     tools:context=".MainActivity">
 
 
+
+
     ]]>
 
     <TextView
         android:id="@+id/removeLocText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
         android:text="Add a place"
-        android:textColor="#74BFB8"
-        android:textSize="18sp"
+        android:textColor="#F9FBFB"
 
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toEndOf="@+id/MapText"
-        app:layout_constraintTop_toBottomOf="@+id/AdvSearchBtn" />
+        app:layout_constraintBottom_toTopOf="@+id/addLocationBtn"
+        app:layout_constraintEnd_toEndOf="@+id/addLocationBtn" />
 
     <Button
         android:id="@+id/addLocationBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="200dp"
+        android:layout_marginEnd="7dp"
         android:layout_marginBottom="5dp"
         android:background="@android:drawable/ic_menu_add"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#FFFEFE"
         app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/NavMap"
-        app:layout_constraintTop_toBottomOf="@+id/removeLocText"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="@+id/logoutBtn" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="374dp"
-        android:layout_height="227dp"
-        android:layout_marginStart="64dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="74dp"
-        android:layout_marginBottom="73dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginEmail"
+        android:layout_marginEnd="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/SearchBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -75,16 +68,15 @@
 
     <ImageButton
         android:id="@+id/NavMap"
-        android:layout_width="104dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="173dp"
-        android:layout_marginBottom="132dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="15dp"
+        android:background="@android:color/transparent"
         android:backgroundTint="#FFFFFF"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
-        app:layout_constraintEnd_toStartOf="@+id/addLocationBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/addLocationBtn"
+        app:layout_constraintEnd_toEndOf="@+id/MapText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MapText"
         app:srcCompat="@android:drawable/ic_menu_mapmode" />
@@ -93,64 +85,58 @@
         android:id="@+id/MapText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="106dp"
-        android:layout_marginEnd="273dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="124dp"
         android:text="Search by Map"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/NavMap"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SearchBar"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/SearchBar"
-        android:layout_width="381dp"
+        android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="14dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="10dp"
         android:background="#A7AF57"
         android:text="Search by location"
         android:textColor="#301F07"
         app:layout_constraintBottom_toTopOf="@+id/SearchTextBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/SearchTextBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="47dp"
+        android:layout_width="0dp"
         android:layout_height="33dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginTop="294dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="295dp"
         android:background="@android:drawable/ic_menu_search"
         android:backgroundTint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/removeLocText"
+        app:layout_constraintBottom_toTopOf="@+id/addLocationBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/AdvSearchBtn"
-        app:layout_constraintTop_toBottomOf="@+id/SearchBar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/AdvSearchBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="193dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="61dp"
 
 
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
 
+        android:layout_marginEnd="194dp"
         android:background="#A7AF57"
         android:text="Advanced Search"
         android:textColor="#301F07"
-
-        app:layout_constraintBottom_toTopOf="@+id/removeLocText"
         app:layout_constraintEnd_toStartOf="@+id/SearchTextBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SearchBar" />

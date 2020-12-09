@@ -170,7 +170,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                 Map<String, Object> data = new HashMap<>();
                 data.put("latitude", Double.toString(latLng.latitude));
                 data.put("longitude", Double.toString(latLng.longitude));
-                data.put("name", description);
+                data.put("nameplace", description);
 
                 DocumentReference newMarker = fStore.collection("Locations").document();
 
