@@ -170,7 +170,8 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                 Map<String, Object> data = new HashMap<>();
                 data.put("latitude", Double.toString(latLng.latitude));
                 data.put("longitude", Double.toString(latLng.longitude));
-                data.put("nameplace", description);
+                data.put("name", description);
+//                data.put("nameplace", description);
 
                 DocumentReference newMarker = fStore.collection("Locations").document();
 
@@ -224,13 +225,13 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
                 if (e != null) {
-
+                e.printStackTrace();
                 }
 
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
 
-                    double lat = Double.parseDouble(dc.getDocument().getData().get("latitude").toString());
-                    double lon = Double.parseDouble(dc.getDocument().getData().get("longitude").toString());
+                    double lat = Double.parseDouble(dc.getDocument().getString("latitude").toString());
+                    double lon = Double.parseDouble(dc.getDocument().getString("longitude").toString());
                     String name = dc.getDocument().getData().get("name").toString();
                     LatLng location = new LatLng(lat, lon);
 
