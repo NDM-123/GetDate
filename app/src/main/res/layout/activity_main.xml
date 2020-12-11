@@ -6,139 +6,306 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dead"><![CDATA[
+    android:background="@drawable/sea1"><![CDATA[
     tools:context=".MainActivity">
-
 
 
 
     ]]>
 
+    <Button
+        android:id="@+id/addLocationBtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="51dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="298dp"
+        android:layout_marginTop="656dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="33dp"
+        android:background="@drawable/addicon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/removeLocText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Add a place"
-        android:textColor="#F9FBFB"
 
+        android:layout_marginStart="304dp"
+        android:layout_marginTop="632dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="75dp"
+        android:text="Add"
+        android:textColor="#F9FBFB"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/addLocationBtn"
-        app:layout_constraintEnd_toEndOf="@+id/addLocationBtn" />
-
-    <Button
-        android:id="@+id/addLocationBtn"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="5dp"
-        android:background="@android:drawable/ic_menu_add"
-        android:backgroundTint="#FFFEFE"
-        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
-        app:layout_constraintEnd_toEndOf="@+id/logoutBtn" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="383dp"
+        android:layout_height="223dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="23dp"
         android:layout_marginEnd="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/SearchBar"
+        android:layout_marginBottom="485dp"
+        android:adjustViewBounds="false"
+        android:backgroundTint="@color/design_default_color_on_secondary"
+        android:backgroundTintMode="screen"
+        android:focusableInTouchMode="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo4" />
 
     <Button
         android:id="@+id/logoutBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="36dp"
+        android:layout_height="31dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Logout from user"
-        android:textAllCaps="false"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="359dp"
+        android:layout_marginBottom="659dp"
+        android:background="@drawable/logicon1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imagelog"
+        android:layout_width="387dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="587dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="108dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/removebg" />
 
     <ImageButton
-        android:id="@+id/NavMap"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="15dp"
+        android:id="@+id/searchpic"
+        android:layout_width="48dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="181dp"
+        android:layout_marginTop="653dp"
+        android:layout_marginEnd="182dp"
+        android:layout_marginBottom="34dp"
         android:background="@android:color/transparent"
         android:backgroundTint="#FFFFFF"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@+id/addLocationBtn"
-        app:layout_constraintEnd_toEndOf="@+id/MapText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MapText"
-        app:srcCompat="@android:drawable/ic_menu_mapmode" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/searchicon" />
 
     <TextView
-        android:id="@+id/MapText"
+        android:id="@+id/searchtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="124dp"
-        android:text="Search by Map"
+        android:layout_marginStart="178dp"
+        android:layout_marginTop="632dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="75dp"
+        android:text="Search"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/NavMap"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="653dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="33dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="#FFFFFF"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mapicon" />
+
+    <TextView
+        android:id="@+id/MapText"
+        android:layout_width="41dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="632dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="69dp"
+        android:text="Map"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/SearchBar"
-        android:layout_width="0dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="10dp"
-        android:background="#A7AF57"
-        android:text="Search by location"
+        android:layout_width="337dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="246dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="454dp"
+        android:background="#E1ECE5"
+        android:ellipsize="end"
+        android:text="Search Your Next Place.."
         android:textColor="#301F07"
-        app:layout_constraintBottom_toTopOf="@+id/SearchTextBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/SearchTextBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="294dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="295dp"
-        android:background="@android:drawable/ic_menu_search"
-        android:backgroundTint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/addLocationBtn"
+        android:layout_width="52dp"
+        android:layout_height="36dp"
+
+        android:layout_marginStart="356dp"
+        android:layout_marginTop="241dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="454dp"
+        android:background="@drawable/searchiconup"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/AdvSearchBtn"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/AdvSearchBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+
+
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="283dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="423dp"
+        android:background="#D5D6CB"
+        android:text="Advanced"
+        android:textColor="#301F07"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="0dp" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="-9dp" />
 
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-
-        android:layout_marginEnd="194dp"
-        android:background="#A7AF57"
-        android:text="Advanced Search"
-        android:textColor="#301F07"
-        app:layout_constraintEnd_toStartOf="@+id/SearchTextBtn"
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="MapText,searchtext,addLocationBtn,searchpic,NavMap,removeLocText"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SearchBar" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="removeLocText,addLocationBtn,imageView3,logoutBtn,imagelog,searchpic,searchtext,NavMap,MapText,SearchBar,SearchTextBtn,AdvSearchBtn,guideline3,guideline4,group"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="removeLocText,addLocationBtn,imageView3,logoutBtn,imagelog,searchpic,searchtext,NavMap,MapText,SearchBar,SearchTextBtn,AdvSearchBtn,guideline3,guideline4,group,group2"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="MapText,NavMap"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="searchtext,searchpic"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="addLocationBtn,removeLocText"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="SearchBar,AdvSearchBtn"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="MapText,searchtext,addLocationBtn,searchpic,NavMap,removeLocText"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
