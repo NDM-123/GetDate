@@ -79,20 +79,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imagelog"
-        android:layout_width="387dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="587dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="108dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/removebg" />
-
     <ImageButton
         android:id="@+id/searchpic"
         android:layout_width="48dp"
@@ -241,7 +227,7 @@
         android:id="@+id/group2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="removeLocText,addLocationBtn,imageView3,logoutBtn,imagelog,searchpic,searchtext,NavMap,MapText,SearchBar,SearchTextBtn,AdvSearchBtn,guideline3,guideline4,group"
+        app:constraint_referenced_ids="removeLocText,addLocationBtn,imageView3,logoutBtn,searchpic,searchtext,NavMap,MapText,SearchBar,SearchTextBtn,AdvSearchBtn,guideline3,guideline4,group"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -251,7 +237,7 @@
         android:id="@+id/group3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="removeLocText,addLocationBtn,imageView3,logoutBtn,imagelog,searchpic,searchtext,NavMap,MapText,SearchBar,SearchTextBtn,AdvSearchBtn,guideline3,guideline4,group,group2"
+        app:constraint_referenced_ids="removeLocText,addLocationBtn,imageView3,logoutBtn,searchpic,searchtext,NavMap,MapText,SearchBar,SearchTextBtn,AdvSearchBtn,guideline3,guideline4,group,group2"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"

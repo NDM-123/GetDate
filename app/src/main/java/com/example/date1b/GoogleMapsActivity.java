@@ -17,6 +17,7 @@ package com.example.date1b;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,6 +25,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,8 +82,8 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             int PERMISSION_ALL = 1;
             String[] PERMISSIONS = {
-                    Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
             };
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
@@ -94,6 +96,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         if(location != null) {
             Tlongitude = location.getLongitude();
             Tlatitude = location.getLatitude();
+            //In emulator is set to tel aviv
             myLoc = new LatLng(Tlatitude, Tlongitude);
         }else{
             //  Ariel Location
@@ -104,81 +107,94 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
 
         addMarkers();
-        googleMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);
+
+        // Setting a custom info window adapter for the google map
+        MarkerInfoWindowAdapter markerInfoWindowAdapter = new MarkerInfoWindowAdapter(getApplicationContext());
+        mMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 addMark(latLng);
-                     //   .snippet("Your marker snippet"));
             }
         });
-        // If we would want to set images for location instead of red marks:
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
 
-        //setting the size of marker in map by using Bitmap Class
-//        int height = 80;
-//        int width = 80;
-//        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.scooter);
-//        Bitmap b=bitmapdraw.getBitmap();
-//        final Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-//        mUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot s : dataSnapshot.getChildren()){
-//                    Log.e("Count " ,""+s.getChildrenCount());
-//                    Map<String, Object> td = (HashMap<String,Object>) s.getValue();
-//                    MarkerInfo loc = s.getValue(MarkerInfo.class);
-//                    LatLng location=new LatLng(Double.parseDouble(loc.latitude),Double.parseDouble(loc.longitude));
-//                    mMap.addMarker(new MarkerOptions().position(location).title(loc.name));     //.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-//                   // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-//
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+                Intent i = new Intent(getApplicationContext(), PlaceInfo.class);
+                i.putExtra("name",marker.getTitle());
+                i.putExtra("desc",marker.getSnippet());
+                i.putExtra("pos",marker.getPosition());
+                i.putExtra("lat",marker.getPosition().latitude);
+                i.putExtra("lan",marker.getPosition().longitude);
+                startActivity(i);
+                }
+
+        });
+
+
+
     }
 
+
+
+
+
     private void addMark(final LatLng latLng) {
-        // Init the dialog object
+// Init the dialog object
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter description");
+        builder.setTitle("Enter details:");
+
 
 // Set up the input
         final EditText input = new EditText(this);
+        final EditText input2 = new EditText(this);
+
+        LinearLayout lp =new LinearLayout(getBaseContext());
+
+        lp.setOrientation(LinearLayout.VERTICAL);
+
+        lp.addView(input);
+        lp.addView(input2);
+
+        input.setHint("Name");
+        input2.setHint("Description");
 
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        input2.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(lp);
 
 // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String name;
                 String description;
-                description = input.getText().toString();
+
+                name = input.getText().toString();
+                description = input2.getText().toString();
 
                 mMap.addMarker(new MarkerOptions()
                         .position(latLng)
-                        .title(description));
+                        .title(name)
+                        .snippet(description));
 
                 // Add a new document with a generated id.
                 Map<String, Object> data = new HashMap<>();
                 data.put("latitude", Double.toString(latLng.latitude));
                 data.put("longitude", Double.toString(latLng.longitude));
-                data.put("name", description);
-//                data.put("nameplace", description);
+                data.put("name", name);
+                data.put("snippet", description);
 
                 DocumentReference newMarker = fStore.collection("Locations").document();
 
                 newMarker.set(data);
             }
-        });
-        builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
+            });
+                builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -186,6 +202,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         builder.show();
+
     }
 
 
@@ -214,6 +231,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+
         return false;
     }
 
@@ -227,52 +245,44 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                 if (e != null) {
                 e.printStackTrace();
                 }
-
+                String description="";
+                String name="";
+                double latitude=0;
+                double longitude=0;
+                LatLng location=null;
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
 
-                    double lat = Double.parseDouble(dc.getDocument().getString("latitude").toString());
-                    double lon = Double.parseDouble(dc.getDocument().getString("longitude").toString());
-                    String name = dc.getDocument().getData().get("name").toString();
-                    LatLng location = new LatLng(lat, lon);
+                    Object lat = dc.getDocument().getString("latitude");
+                    Object lon = dc.getDocument().getString("longitude");
+                    Object nam = dc.getDocument().getData().get("name");
+                    Object snip = dc.getDocument().getData().get("snippet");
 
-                    mMap.addMarker(new MarkerOptions().position(location).title(name).draggable(true));
+                    if(lat!=null) {
+                          latitude = Double.parseDouble((String) lat);
+                    }if(lon!=null) {
+                          longitude = Double.parseDouble((String) lon);
+                    }if(nam!=null) {
+                          name = nam.toString();
+                    }
+                    if(snip!=null) {
+                         description = snip.toString();
+                    }
+                    if(latitude!=0 && longitude!=0)
+                    location = new LatLng(latitude, longitude);
 
+                    if(location!=null)
+                    mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
+
+
+
+                    description="";
+                    nam="";
+                    latitude=0;
+                    longitude=0;
+                    location=null;
                 }
             }
         });
-    }
-
-//  Get text from user
-  private String getText() {
-        // Init the dialog object
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter text");
-
-// Set up the input
-        final EditText input = new EditText(this);
-
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-
-        return input.getText().toString();
     }
 
 }
