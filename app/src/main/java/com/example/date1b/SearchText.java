@@ -16,9 +16,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class SearchText extends AppCompatActivity{
+public class SearchText extends AppCompatActivity {
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
     ArrayList<String> al = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class SearchText extends AppCompatActivity{
         final String place = getIntent().getStringExtra("name_place");
         ArrayList<MarkerInfo> list = (ArrayList<MarkerInfo>) i
                 .getSerializableExtra("Locations");
-        Toast.makeText(SearchText.this,place,Toast.LENGTH_SHORT).show();
+        Toast.makeText(SearchText.this, place, Toast.LENGTH_SHORT).show();
         fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -40,13 +41,13 @@ public class SearchText extends AppCompatActivity{
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
 
                     String name = dc.getDocument().getData().get("name").toString();
-              //  if (place == name)
+                    //  if (place == name)
                     al.add(name);
                 }
 
             }
         });
-        ArrayAdapter<String> dataAdapter =  new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
         ListView lstView = (ListView) findViewById(R.id.locations_list);
         lstView.setAdapter(dataAdapter);
     }
