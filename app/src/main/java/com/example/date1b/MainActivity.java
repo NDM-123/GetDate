@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 String place = "";
                 place = searchBar.getText().toString();
                 intent.putExtra("place_name", place);
-           //     finish();
+                //     finish();
 
-                }
+            }
 
         });
         addPlace.setOnClickListener(new View.OnClickListener() {
@@ -93,5 +93,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-            }
-            }
+    }
+}

@@ -93,14 +93,14 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LatLng myLoc;
-        if(location != null) {
+        if (location != null) {
             Tlongitude = location.getLongitude();
             Tlatitude = location.getLatitude();
             //In emulator is set to tel aviv
             myLoc = new LatLng(Tlatitude, Tlongitude);
-        }else{
+        } else {
             //  Ariel Location
-             myLoc = new LatLng(32.1046, 35.1745);
+            myLoc = new LatLng(32.1046, 35.1745);
         }
         // Add a marker in persons location and move the camera
         mMap.addMarker(new MarkerOptions().position(myLoc).title("Marker in myLoc"));
@@ -124,22 +124,18 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             public void onInfoWindowClick(Marker marker) {
 
                 Intent i = new Intent(getApplicationContext(), PlaceInfo.class);
-                i.putExtra("name",marker.getTitle());
-                i.putExtra("desc",marker.getSnippet());
-                i.putExtra("pos",marker.getPosition());
-                i.putExtra("lat",marker.getPosition().latitude);
-                i.putExtra("lan",marker.getPosition().longitude);
+                i.putExtra("name", marker.getTitle());
+                i.putExtra("desc", marker.getSnippet());
+                i.putExtra("pos", marker.getPosition());
+                i.putExtra("lat", marker.getPosition().latitude);
+                i.putExtra("lan", marker.getPosition().longitude);
                 startActivity(i);
-                }
+            }
 
         });
 
 
-
     }
-
-
-
 
 
     private void addMark(final LatLng latLng) {
@@ -152,7 +148,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         final EditText input = new EditText(this);
         final EditText input2 = new EditText(this);
 
-        LinearLayout lp =new LinearLayout(getBaseContext());
+        LinearLayout lp = new LinearLayout(getBaseContext());
 
         lp.setOrientation(LinearLayout.VERTICAL);
 
@@ -193,8 +189,8 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
                 newMarker.set(data);
             }
-            });
-                builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -243,13 +239,13 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
                 if (e != null) {
-                e.printStackTrace();
+                    e.printStackTrace();
                 }
-                String description="";
-                String name="";
-                double latitude=0;
-                double longitude=0;
-                LatLng location=null;
+                String description = "";
+                String name = "";
+                double latitude = 0;
+                double longitude = 0;
+                LatLng location = null;
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
 
                     Object lat = dc.getDocument().getString("latitude");
@@ -257,29 +253,30 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                     Object nam = dc.getDocument().getData().get("name");
                     Object snip = dc.getDocument().getData().get("snippet");
 
-                    if(lat!=null) {
-                          latitude = Double.parseDouble((String) lat);
-                    }if(lon!=null) {
-                          longitude = Double.parseDouble((String) lon);
-                    }if(nam!=null) {
-                          name = nam.toString();
+                    if (lat != null) {
+                        latitude = Double.parseDouble((String) lat);
                     }
-                    if(snip!=null) {
-                         description = snip.toString();
+                    if (lon != null) {
+                        longitude = Double.parseDouble((String) lon);
                     }
-                    if(latitude!=0 && longitude!=0)
-                    location = new LatLng(latitude, longitude);
+                    if (nam != null) {
+                        name = nam.toString();
+                    }
+                    if (snip != null) {
+                        description = snip.toString();
+                    }
+                    if (latitude != 0 && longitude != 0)
+                        location = new LatLng(latitude, longitude);
 
-                    if(location!=null)
-                    mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
+                    if (location != null)
+                        mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
 
 
-
-                    description="";
-                    nam="";
-                    latitude=0;
-                    longitude=0;
-                    location=null;
+                    description = "";
+                    nam = "";
+                    latitude = 0;
+                    longitude = 0;
+                    location = null;
                 }
             }
         });

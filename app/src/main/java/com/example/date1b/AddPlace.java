@@ -18,19 +18,18 @@ public class AddPlace extends AppCompatActivity {
     // views for button
     Button addPlacebtn;
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-    EditText namePlace,description;
+    EditText namePlace, description;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_place);
 
-    namePlace = findViewById(R.id.namePlace);
-    description = findViewById(R.id.description);
-       addPlacebtn = findViewById(R.id.addbutton);
+        namePlace = findViewById(R.id.namePlace);
+        description = findViewById(R.id.description);
+        addPlacebtn = findViewById(R.id.addbutton);
 
         addPlacebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,12 +44,12 @@ public class AddPlace extends AppCompatActivity {
                 DocumentReference newMarker = fStore.collection("Locations").document();
 
                 newMarker.set(data);
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
 
         });
 
 
-}
+    }
 }

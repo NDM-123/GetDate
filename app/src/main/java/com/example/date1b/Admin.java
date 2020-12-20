@@ -15,7 +15,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class Admin extends AppCompatActivity {
     StorageReference mStorageRef;
-    Button logout, removePlace, searchT,advSearch;
+    Button logout, removePlace, searchT, advSearch;
     AutoCompleteTextView searchBar;
     ImageButton navigate;
 
@@ -79,21 +79,20 @@ public class Admin extends AppCompatActivity {
             }
 
 
-
         });
 
         removePlace.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RemoveLocation.class));
+                startActivity(new Intent(getApplicationContext(), RemoveLocation.class));
             }
         });
         advSearch.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RemoveLocation.class));
+                startActivity(new Intent(getApplicationContext(), RemoveLocation.class));
             }
         });
     }

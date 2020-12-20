@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity {
         // Firebase call to authenticate login and database data
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         email = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
@@ -61,8 +61,8 @@ public class Login extends AppCompatActivity {
                             dr.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                   String ad =  documentSnapshot.getString("isAdmin");
-                                   int admin = ad!=null?1:0;
+                                    String ad = documentSnapshot.getString("isAdmin");
+                                    int admin = ad != null ? 1 : 0;
                                     checkIfAdmin(admin);
                                 }
 
@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity {
 //
             private void checkIfAdmin(int admin) {
                 // Check if user is admin
-                if(admin==1) {
+                if (admin == 1) {
                     startActivity(new Intent(getApplicationContext(), Admin.class));
                     finish();
                 }

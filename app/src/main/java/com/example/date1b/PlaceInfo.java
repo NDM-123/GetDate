@@ -38,14 +38,14 @@ public class PlaceInfo extends AppCompatActivity {
 
         String name = data.getString("name");
         String desc = data.getString("desc");
-        if(name!=null)tvName.setText(name);
-        if(desc!=null)tvDesc.setText(desc);
+        if (name != null) tvName.setText(name);
+        if (desc != null) tvDesc.setText(desc);
 
         // Create a storage reference from our app
         StorageReference storageRef = storage.getReference();
 
 
-         //Download file in Memory
+        //Download file in Memory
         StorageReference islandRef = storageRef.child("images/IMG_20180119_163127.jpg");
 
         final long ONE_MEGABYTE = 1024 * 1024 * 10;
@@ -54,8 +54,8 @@ public class PlaceInfo extends AppCompatActivity {
             @Override
             public void onSuccess(byte[] bytes) {
                 // Data for "images/pictureName.jpg" is returns, use this as needed
-                 Bitmap img = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                if(img!=null){
+                Bitmap img = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                if (img != null) {
                     image.setImageBitmap(img);//Bitmap.createScaledBitmap(img, 120, 120, true));
                 }
             }
@@ -70,14 +70,14 @@ public class PlaceInfo extends AppCompatActivity {
         navigateGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Double lat =  data.getDouble("lat");
-              Double lon =  data.getDouble("lon");
-              if(lat!=null && lon!=null) {
-                  Uri navigation = Uri.parse("google.navigation:q=" + lat + "," + lon + "");
-                  Intent navigationIntent = new Intent(Intent.ACTION_VIEW, navigation);
-                  navigationIntent.setPackage("com.google.android.apps.maps");
-                  startActivity(navigationIntent);
-              }
+                Double lat = data.getDouble("lat");
+                Double lon = data.getDouble("lon");
+                if (lat != null && lon != null) {
+                    Uri navigation = Uri.parse("google.navigation:q=" + lat + "," + lon + "");
+                    Intent navigationIntent = new Intent(Intent.ACTION_VIEW, navigation);
+                    navigationIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(navigationIntent);
+                }
             }
         });
 

@@ -23,12 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Register extends AppCompatActivity {
-    EditText fullName,email,password,phone;
-    Button registerBtn,goToLogin;
+    EditText fullName, email, password, phone;
+    Button registerBtn, goToLogin;
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    CheckBox isAdmin,isUser;
+    CheckBox isAdmin, isUser;
 //adding comments
 
 
@@ -79,37 +79,38 @@ public class Register extends AppCompatActivity {
 //                    Toast.makeText(Register.this, "Select account type", Toast.LENGTH_SHORT).show();
 //                }
 
-                if(valid){
+                if (valid) {
                     //start the user registration
                     System.out.println(password.getText().toString());
 
 
-                    fAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
+                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            //go to curr User in Database
-                            FirebaseUser user = fAuth.getCurrentUser();
-                            Toast.makeText(Register.this,"Account created",Toast.LENGTH_SHORT).show();
-                            DocumentReference dr = fStore.collection("Users").document(user.getUid());
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    //go to curr User in Database
+                                    FirebaseUser user = fAuth.getCurrentUser();
+                                    Toast.makeText(Register.this, "Account created", Toast.LENGTH_SHORT).show();
+                                    DocumentReference dr = fStore.collection("Users").document(user.getUid());
 
-                            Map<String,Object> userInfo = new HashMap<>();
-                            userInfo.put("FullName",fullName.getText().toString());
-                            userInfo.put("UserEmail",email.getText().toString());
-                            userInfo.put("PhoneNumber",phone.getText().toString());
+                                    Map<String, Object> userInfo = new HashMap<>();
+                                    userInfo.put("FullName", fullName.getText().toString());
+                                    userInfo.put("UserEmail", email.getText().toString());
+                                    userInfo.put("PhoneNumber", phone.getText().toString());
 //                            //If choose user
-                            userInfo.put("isUser","1");
+                                    userInfo.put("isUser", "1");
 //                            if(isAdmin.isChecked())userInfo.put("isAdmin","0");
-                            dr.set(userInfo);
-                            //after register go to login
-                            startActivity(new Intent(getApplicationContext(),Login.class));
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
+                                    dr.set(userInfo);
+                                    //after register go to login
+                                    startActivity(new Intent(getApplicationContext(), Login.class));
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
-                            Toast.makeText(Register.this,"Failed to create account",Toast.LENGTH_SHORT).show();}
+                            Toast.makeText(Register.this, "Failed to create account", Toast.LENGTH_SHORT).show();
+                        }
                     });
                 }
             }
@@ -123,11 +124,11 @@ public class Register extends AppCompatActivity {
 
     }
 
-    public boolean checkField(EditText textField){
-        if(textField.getText().toString().isEmpty()){
+    public boolean checkField(EditText textField) {
+        if (textField.getText().toString().isEmpty()) {
             textField.setError("Error");
             valid = false;
-        }else {
+        } else {
             valid = true;
         }
 

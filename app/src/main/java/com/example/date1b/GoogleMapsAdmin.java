@@ -91,11 +91,11 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
 
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LatLng myLoc;
-        if(location != null) {
+        if (location != null) {
             Tlongitude = location.getLongitude();
             Tlatitude = location.getLatitude();
             myLoc = new LatLng(Tlatitude, Tlongitude);
-        }else{
+        } else {
             //  Ariel Location
             myLoc = new LatLng(32.1046, 35.1745);
         }
@@ -187,7 +187,7 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
                 newMarker.set(data);
             }
         });
-        builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -276,7 +276,7 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-        builder.setNegativeButton("Cancel", new         DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
