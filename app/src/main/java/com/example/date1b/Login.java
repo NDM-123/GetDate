@@ -77,12 +77,6 @@ public class Login extends AppCompatActivity {
                     });
 
                 }
-                gotoRegister.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(), Register.class));
-                    }
-                });
 
 
             }
@@ -122,6 +116,12 @@ public class Login extends AppCompatActivity {
                 }
             }
 
-        });
+                });
+                gotoRegister.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getApplicationContext(), Register.class));
+                    }
+                });
     }
 }

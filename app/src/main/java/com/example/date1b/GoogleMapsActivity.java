@@ -27,6 +27,7 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -35,23 +36,32 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
     private GoogleMap mMap;
     protected double Tlatitude, Tlongitude;
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    ArrayList fav = getFavoriteMarkers();
 
 
     @Override
@@ -106,7 +116,10 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         mMap.addMarker(new MarkerOptions().position(myLoc).title("Marker in myLoc"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
 
+
         addMarkers();
+
+
         mMap.setOnMarkerClickListener(this);
 
         // Setting a custom info window adapter for the google map
@@ -137,6 +150,30 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
+    private ArrayList getFavoriteMarkers() {
+        DocumentReference dr = fStore.collection("Users").document(fAuth.getCurrentUser().getUid());
+        dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Map<String, Object> a = document.getData();
+                        if(a.get("favorites")!=null) {
+                            fav =  (ArrayList)a.get("favorites");
+                        }
+                    } else {
+                        System.out.println("No such document");
+                    }
+                } else {
+                    task.getException();
+                }
+            }
+
+
+        });
+        return fav;
+    }
 
     private void addMark(final LatLng latLng) {
 // Init the dialog object
@@ -265,12 +302,17 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                     if (snip != null) {
                         description = snip.toString();
                     }
-                    if (latitude != 0 && longitude != 0)
+                    if (latitude != 0 && longitude != 0) {
                         location = new LatLng(latitude, longitude);
-
-                    if (location != null)
-                        mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
-
+                    }
+                    if (location != null) {
+                        if(!fav.contains(name)) {
+                            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
+                        }else{
+                            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        }
+                    }
 
                     description = "";
                     nam = "";

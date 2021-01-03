@@ -2,43 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorite"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/locPicture"
-        android:layout_width="0dp"
+        android:layout_width="335dp"
         android:layout_height="0dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="116dp"
         app:layout_constraintBottom_toTopOf="@+id/locname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/locname"
         android:layout_width="178dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="366dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="11dp"
         android:text="Name"
         android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/locdescription"
+        app:layout_constraintBottom_toTopOf="@+id/locdescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locPicture" />
 
     <TextView
         android:id="@+id/locdescription"
         android:layout_width="217dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="51dp"
-        android:layout_marginBottom="80dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="39dp"
         android:text="Description"
         android:textSize="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/navwithgm"
+        app:layout_constraintBottom_toTopOf="@+id/addFavorite"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locname" />
 
@@ -46,10 +45,21 @@
         android:id="@+id/navwithgm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="197dp"
+        android:layout_marginBottom="269dp"
         android:text="Navigate with google maps"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addFavorite" />
+
+    <Button
+        android:id="@+id/addFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="70dp"
+        android:text="Add to Favorite"
+        app:layout_constraintBottom_toTopOf="@+id/navwithgm"
+        app:layout_constraintStart_toStartOf="@+id/locdescription"
         app:layout_constraintTop_toBottomOf="@+id/locdescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

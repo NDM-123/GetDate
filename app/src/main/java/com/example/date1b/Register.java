@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+//import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,7 +28,7 @@ public class Register extends AppCompatActivity {
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    CheckBox isAdmin, isUser;
+//    CheckBox isAdmin, isUser;
 //adding comments
 
 
@@ -44,8 +44,8 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
-        registerBtn = findViewById(R.id.gotoLogin);
-//        goToLogin = findViewById(R.id.gotoLogin);
+//        registerBtn = findViewById(R.id.gotoLogin);
+        goToLogin = findViewById(R.id.gotoLogin);
 //        isAdmin = findViewById(R.id.isAdmin);
 //        isUser = findViewById(R.id.isUser);
 
@@ -66,7 +66,7 @@ public class Register extends AppCompatActivity {
 //
 //            }
 //        });
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkField(fullName);
@@ -94,11 +94,14 @@ public class Register extends AppCompatActivity {
                                     DocumentReference dr = fStore.collection("Users").document(user.getUid());
 
                                     Map<String, Object> userInfo = new HashMap<>();
+                                    Map<String, Object> favor = new HashMap<>();
                                     userInfo.put("FullName", fullName.getText().toString());
                                     userInfo.put("UserEmail", email.getText().toString());
                                     userInfo.put("PhoneNumber", phone.getText().toString());
 //                            //If choose user
                                     userInfo.put("isUser", "1");
+                              // Favorites
+                                    userInfo.put("favorites",favor );
 //                            if(isAdmin.isChecked())userInfo.put("isAdmin","0");
                                     dr.set(userInfo);
                                     //after register go to login
