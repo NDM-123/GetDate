@@ -8,58 +8,124 @@
 
     <ImageView
         android:id="@+id/locPicture"
-        android:layout_width="335dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="116dp"
-        app:layout_constraintBottom_toTopOf="@+id/locname"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="105dp"
+        app:layout_constraintBottom_toTopOf="@+id/navwithgm"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/locname"
-        android:layout_width="178dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="11dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
         android:text="Name"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/locdescription"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/submit_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+    <TextView
+        android:id="@+id/locdescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="13dp"
+        android:gravity="center"
+        android:text="Description"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/addFavorite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locPicture" />
 
-    <TextView
-        android:id="@+id/locdescription"
-        android:layout_width="217dp"
+    <Button
+        android:id="@+id/addFavorite"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="39dp"
-        android:text="Description"
-        android:textSize="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/addFavorite"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="26dp"
+        android:text="Add to Favorite"
+        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+        app:layout_constraintEnd_toStartOf="@+id/navwithgm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locname" />
+        app:layout_constraintTop_toBottomOf="@+id/locdescription" />
 
     <Button
         android:id="@+id/navwithgm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="269dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="167dp"
         android:text="Navigate with google maps"
+        app:layout_constraintBottom_toTopOf="@+id/submit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addFavorite"
+        app:layout_constraintTop_toBottomOf="@+id/locPicture" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="113dp"
+        android:background="#919091"
+        android:numStars="5"
+        android:rating="1"
+        app:layout_constraintBottom_toTopOf="@+id/locname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/addFavorite"
+        app:layout_constraintTop_toBottomOf="@+id/addFavorite"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="18dp"
+        android:background="#A8A7A7"
+        android:onClick="submitRating"
+        android:text="Submit"
+        app:layout_constraintBottom_toTopOf="@+id/ratingSum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/locname"
+        app:layout_constraintTop_toBottomOf="@+id/navwithgm"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/ratingSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="38dp"
+        android:textColorHint="@color/colorAccent"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addFavorite" />
+        app:layout_constraintTop_toBottomOf="@+id/submit_button"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 
-    <Button
-        android:id="@+id/addFavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginBottom="70dp"
-        android:text="Add to Favorite"
-        app:layout_constraintBottom_toTopOf="@+id/navwithgm"
-        app:layout_constraintStart_toStartOf="@+id/locdescription"
-        app:layout_constraintTop_toBottomOf="@+id/locdescription" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

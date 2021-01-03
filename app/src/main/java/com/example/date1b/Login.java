@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    FirebaseAnalytics mFirebaseAnalytics;
+//    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class Login extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         gotoRegister = findViewById(R.id.gotoRegister);
         //maybe to add btn forgot password
+
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +72,8 @@ public class Login extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                  Toast.makeText(Login.this, "Failed to connect, check fields", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

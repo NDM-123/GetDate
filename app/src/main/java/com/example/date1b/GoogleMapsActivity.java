@@ -18,12 +18,14 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -51,6 +53,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +76,8 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+        catchGoogleMapsException(this);
 
     }
 
@@ -306,11 +311,11 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
                         location = new LatLng(latitude, longitude);
                     }
                     if (location != null) {
-                        if(!fav.contains(name)) {
-                            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
-                        }else{
+                        if(fav != null && fav.contains(name)) {
                             mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        }else{
+                            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
                         }
                     }
 
@@ -323,7 +328,33 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
     }
+    public void catchGoogleMapsException(final Context context) {
+        try {
+            SharedPreferences hasFixedGoogleBug154855417 = getSharedPreferences("google_bug_154855417", Context.MODE_PRIVATE);
+            if (!hasFixedGoogleBug154855417.contains("fixed")) {
+                File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
+                File corruptedSavedClientParameters = new File(getFilesDir(), "SavedClientParameters.data.cs");
+                File corruptedClientParametersData =
+                        new File(
+                                getFilesDir(),
+                                "DATA_ServerControlledParametersManager.data."
+                                        + getBaseContext().getPackageName());
+                File corruptedClientParametersDataV1 =
+                        new File(
+                                getFilesDir(),
+                                "DATA_ServerControlledParametersManager.data.v1."
+                                        + getBaseContext().getPackageName());
+                corruptedZoomTables.delete();
+                corruptedSavedClientParameters.delete();
+                corruptedClientParametersData.delete();
+                corruptedClientParametersDataV1.delete();
+                hasFixedGoogleBug154855417.edit().putBoolean("fixed", true).apply();
+            }
+        } catch (Exception e) {
 
+        }
+
+    }
 }
 
 
