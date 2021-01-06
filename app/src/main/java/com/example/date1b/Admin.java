@@ -33,6 +33,13 @@ public class Admin extends AppCompatActivity {
         advSearch = findViewById(R.id.AdvSearchBtn);
         navigate = findViewById(R.id.NavMap);
 
+        searchBar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                searchBar.setText("");
+            }
+        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -79,7 +79,12 @@ public class SearchText extends AppCompatActivity {
 //                                nameSnapshot.getReference().delete();
                                 Toast.makeText(SearchText.this, "Location was found", Toast.LENGTH_SHORT).show();
                                 nameBar.setText("");
-                                startActivity(new Intent(getApplicationContext(),MarkerInfoWindowAdapter.class));
+                                Intent i = new Intent(getApplicationContext(), PlaceInfo.class);
+                                i.putExtra("name", (String)nameSnapshot.get("name"));
+                                i.putExtra("desc", (String)nameSnapshot.get("snippet"));
+                                i.putExtra("lat", (String)nameSnapshot.get("latitude"));
+                                i.putExtra("lan", (String)nameSnapshot.get("longitude"));
+                                startActivity(i);
 
 
                             }

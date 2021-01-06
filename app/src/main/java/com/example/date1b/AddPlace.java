@@ -152,7 +152,7 @@ public class AddPlace extends AppCompatActivity {
             data.put("name", name.getText().toString());
             data.put("description", description.getText().toString());
             //data.put("name", description);
-            data.put("images", "/images" +name.getText().toString());
+            data.put("image", "/images" +name.getText().toString());
 
             DocumentReference newMarker = fStore.collection("Locations").document();
 

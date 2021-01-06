@@ -1,5 +1,6 @@
 package com.example.date1b;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,16 +30,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlaceInfo extends AppCompatActivity{
     Button navigateGoogle;
     FirebaseStorage storage;
     Button Add_to_favorite;
     Button submit;
+    Button back_home;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    ImageButton wazeButton;
     RatingBar rt;
     String name ="";
     float firebaseRate = 0;
@@ -50,11 +57,14 @@ public class PlaceInfo extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_placeinfo);
         Add_to_favorite =   findViewById(R.id.addFavorite);
+        wazeButton = findViewById(R.id.waze_button);
+        back_home =  findViewById(R.id.backHome);
         storage = FirebaseStorage.getInstance();
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
 
         final Bundle data = getIntent().getExtras();
+        name = data.getString("name");
 
         image = findViewById(R.id.locPicture);
         tvName = findViewById(R.id.locname);
@@ -62,11 +72,11 @@ public class PlaceInfo extends AppCompatActivity{
         navigateGoogle = findViewById(R.id.navwithgm);
         rt = (RatingBar) findViewById(R.id.ratingBar);
         submit = findViewById(R.id.submit_button);
-
+        addRatingIfNull();
         fireRate();
         addImage();
 
-        name = data.getString("name");
+
         String desc = data.getString("desc");
         if (name != null) {
             setTitle(name);
@@ -81,7 +91,28 @@ public class PlaceInfo extends AppCompatActivity{
         //Use for changing the color of RatingBar
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
+        wazeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nameWaze= name;
+                nameWaze = nameWaze.replaceAll("\\s+","%20");
+                Toast.makeText(PlaceInfo.this, "waze navigate", Toast.LENGTH_SHORT).show();
+                try
+                {
+                    // Launch Waze to look for Hawaii:
+                    String url = "https://waze.com/ul?q="+nameWaze ;
+                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
+                    startActivity( intent );
+                }
+                catch ( ActivityNotFoundException ex  )
+                {
+                    // If Waze is not installed, open it in Google Play:
+                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+                    startActivity(intent);
+                }
 
+            }
+        });
         Add_to_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +133,15 @@ public class PlaceInfo extends AppCompatActivity{
 //                        e.getStackTrace();
                     }
                 });
+            }
+        });
+        back_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PlaceInfo.this, "back Home", Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
             }
         });
         navigateGoogle.setOnClickListener(new View.OnClickListener() {
@@ -132,14 +172,51 @@ public class PlaceInfo extends AppCompatActivity{
 
 
 
-        System.out.println(firebaseRate);
+//        System.out.println(firebaseRate);
 
 
     }
 
+    private void addRatingIfNull() {
+        fStore.collection("Locations").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for(DocumentSnapshot doc : task.getResult().getDocuments()){
+                        if(name!=null) {
+                            System.out.println(doc.getString("name"));
+                            if (name.equals(doc.getString("name"))) {
+                                System.out.println(doc.get("rating"));
+                                if(doc.get("rating")==null) {
+                                    //an average rate to start with
+                                    System.out.println(doc.getId());
+                                    // Update one field, creating the document if it does not already exist.
+                                    Map<String, Object> data = new HashMap<>();
+                                    data.put("rating", 3.0);
+                                    fStore.collection("Locations").document(doc.getId()).set(data, SetOptions.merge())
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    System.out.println("DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    System.out.println( "Error writing document");
+                                                }
+                                            });
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-
-
+        });
+        return;
+    }
 
 
     private void addImage() {
@@ -244,7 +321,10 @@ public class PlaceInfo extends AppCompatActivity{
                 for(DocumentSnapshot doc : task.getResult().getDocuments()){
                     if(name!=null) {
                         if (name.equals(doc.getString("name"))) {
-                            fStore.collection("Locations").document(doc.getId()).update("rating", rating);
+                            float r = firebaseRate;
+                            if(rating>r && r<5)r+=0.1;
+                            if(rating<r && r>0)r-=0.1;
+                            fStore.collection("Locations").document(doc.getId()).update("rating",r);
                             return;
                         }
                     }
