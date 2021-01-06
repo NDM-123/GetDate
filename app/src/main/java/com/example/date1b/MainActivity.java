@@ -4,20 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     StorageReference mStorageRef;
@@ -26,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     ImageButton navigate,searchpicT;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    ArrayList<String> al = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
+    String namBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,52 +79,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), GoogleMapsActivity.class));
             }
         });
+        fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null) {
 
+                }
+                for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
+                    String name = dc.getDocument().getData().get("name").toString();
+                    al.add(name);
+                }
+            }
+        });
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, al);
+        searchBar.setThreshold(1);
+        searchBar.setAdapter(adapter);
         searchpicT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(getApplicationContext(), SearchText.class);
-
-                startActivity(intent);
-                //  Recieve string from search bar
-                String place = "";
-                place = searchBar.getText().toString();
-                intent.putExtra("place_name", place);
-                //     finish();
-
+                fromSearchToLocation();
             }
 
         });
         searchT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-//
-//                        if (e != null) {
-//
-//                        }
-//                        ArrayList<MarkerInfo> al = new ArrayList<MarkerInfo>();
-//                        for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
-//
-//                            String lat = (dc.getDocument().getData().get("latitude").toString());
-//                            String lon = (dc.getDocument().getData().get("longitude").toString());
-//                            String name = dc.getDocument().getData().get("name").toString();
-//                            // LatLng location = new LatLng(lat, lon);
-//                            MarkerInfo mi = new MarkerInfo(name, lat, lon);
-//
-//                            al.add(mi);
-//                        }
-                Intent intent = new Intent(getApplicationContext(), SearchText.class);
-
-                startActivity(intent);
-                //  Recieve string from search bar
-                String place = "";
-                place = searchBar.getText().toString();
-                intent.putExtra("place_name", place);
-                //     finish();
+        fromSearchToLocation();
 
             }
 
@@ -193,6 +187,33 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
 
+    }
+
+
+   public void  fromSearchToLocation(){
+       //  Recieve string from search bar
+       namBtn = "";
+       namBtn = searchBar.getText().toString();
+       namBtn = searchBar.getText().toString().trim();
+       fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
+           @Override
+           public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+               for (DocumentSnapshot nameSnapshot : value.getDocuments()) {
+                   if (nameSnapshot.get("name").equals(namBtn)) {
+//                                nameSnapshot.getReference().delete();
+                       searchBar.setText("");
+                       Intent i = new Intent(getApplicationContext(), PlaceInfo.class);
+                       i.putExtra("name", (String)nameSnapshot.get("name"));
+                       i.putExtra("desc", (String)nameSnapshot.get("snippet"));
+                       i.putExtra("lat", (String)nameSnapshot.get("latitude"));
+                       i.putExtra("lan", (String)nameSnapshot.get("longitude"));
+                       startActivity(i);
+
+
+                   }
+               }
+           }
+       });
     }
 
 
