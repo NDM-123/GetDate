@@ -17,50 +17,128 @@ package com.example.date1b;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
     private GoogleMap mMap;
     protected double Tlatitude, Tlongitude;
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-//    ArrayList<MarkerOptions> markerOList = new ArrayList<MarkerOptions>();
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    ArrayList fav = getFavoriteMarkers();
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_admin);
+        setContentView(R.layout.activity_google_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+        catchGoogleMapsException(this);
+
+
+        // drawer layout instance to toggle the menu icon to open
+        // drawer and back button to close drawer
+        drawerLayout = findViewById(R.id.my_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        // pass the Open and Close toggle for the drawer layout listener
+        // to toggle the button
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // to make the Navigation drawer icon always appear on the action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch(id)
+                {
+                    case R.id.nav_account:
+                        Toast.makeText(GoogleMapsAdmin.this, "My Account",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Admin.class));
+                        finish();
+                        break;
+                    case R.id.nav_settings:
+                        Toast.makeText(GoogleMapsAdmin.this, "Settings",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Admin.class));
+                        finish();
+                        break;
+                    case R.id.nav_search:
+                        Toast.makeText(GoogleMapsAdmin.this, "Search",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Admin.class));
+                        finish();
+                        break;
+                    case R.id.nav_map:
+                        Toast.makeText(GoogleMapsAdmin.this, "Map",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), GoogleMapsAdmin.class));
+                        finish();
+                        break;
+                    case R.id.nav_logout:
+                        Toast.makeText(GoogleMapsAdmin.this, "Logout",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        finish();
+                        break;
+                    default:
+                        return true;
+
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -80,8 +158,8 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             int PERMISSION_ALL = 1;
             String[] PERMISSIONS = {
-                    Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
             };
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
@@ -94,6 +172,7 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
         if (location != null) {
             Tlongitude = location.getLongitude();
             Tlatitude = location.getLatitude();
+            //In emulator is set to tel aviv
             myLoc = new LatLng(Tlatitude, Tlongitude);
         } else {
             //  Ariel Location
@@ -103,84 +182,111 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(myLoc).title("Marker in myLoc"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
 
+
         addMarkers();
-        googleMap.setOnMarkerClickListener(this);
+
+
+        mMap.setOnMarkerClickListener(this);
+
+        // Setting a custom info window adapter for the google map
+        MarkerInfoWindowAdapter markerInfoWindowAdapter = new MarkerInfoWindowAdapter(getApplicationContext());
+        mMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-
-//                for(MarkerOptions marker : markerOList) {
-//                    if (Math.abs(marker.getPosition().latitude - latLng.latitude) < 0.05 && Math.abs(marker.getPosition().longitude - latLng.longitude) < 0.05) {
-////                        Toast.makeText(MapActivity.this, "got clicked", Toast.LENGTH_SHORT).show(); //do some stuff
-//
-//                        break;
-//                    }
-//                }
                 addMark(latLng);
-
-
-                //   .snippet("Your marker snippet"));
             }
         });
-        // If we would want to set images for location instead of red marks:
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
 
-        //setting the size of marker in map by using Bitmap Class
-//        int height = 80;
-//        int width = 80;
-//        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.scooter);
-//        Bitmap b=bitmapdraw.getBitmap();
-//        final Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-//        mUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot s : dataSnapshot.getChildren()){
-//                    Log.e("Count " ,""+s.getChildrenCount());
-//                    Map<String, Object> td = (HashMap<String,Object>) s.getValue();
-//                    MarkerInfo loc = s.getValue(MarkerInfo.class);
-//                    LatLng location=new LatLng(Double.parseDouble(loc.latitude),Double.parseDouble(loc.longitude));
-//                    mMap.addMarker(new MarkerOptions().position(location).title(loc.name));     //.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-//                   // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-//
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+                Intent i = new Intent(getApplicationContext(), PlaceInfo.class);
+                i.putExtra("name", marker.getTitle());
+                i.putExtra("desc", marker.getSnippet());
+                i.putExtra("pos", marker.getPosition());
+                i.putExtra("lat", marker.getPosition().latitude);
+                i.putExtra("lan", marker.getPosition().longitude);
+                startActivity(i);
+            }
+
+        });
+
+
+    }
+
+    private ArrayList getFavoriteMarkers() {
+        DocumentReference dr = fStore.collection("Users").document(fAuth.getCurrentUser().getUid());
+        dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Map<String, Object> a = document.getData();
+                        if(a.get("favorites")!=null) {
+                            fav =  (ArrayList)a.get("favorites");
+                        }
+                    } else {
+                        System.out.println("No such document");
+                    }
+                } else {
+                    task.getException();
+                }
+            }
+
+
+        });
+        return fav;
     }
 
     private void addMark(final LatLng latLng) {
-        // Init the dialog object
+// Init the dialog object
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter description");
+        builder.setTitle("Enter details:");
+
 
 // Set up the input
         final EditText input = new EditText(this);
+        final EditText input2 = new EditText(this);
+
+        LinearLayout lp = new LinearLayout(getBaseContext());
+
+        lp.setOrientation(LinearLayout.VERTICAL);
+
+        lp.addView(input);
+        lp.addView(input2);
+
+        input.setHint("Name");
+        input2.setHint("Description");
 
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        input2.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(lp);
 
 // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String name;
                 String description;
-                description = input.getText().toString();
+
+                name = input.getText().toString();
+                description = input2.getText().toString();
 
                 mMap.addMarker(new MarkerOptions()
                         .position(latLng)
-                        .title(description));
+                        .title(name)
+                        .snippet(description));
 
                 // Add a new document with a generated id.
                 Map<String, Object> data = new HashMap<>();
                 data.put("latitude", Double.toString(latLng.latitude));
                 data.put("longitude", Double.toString(latLng.longitude));
-                data.put("name", description);
+                data.put("name", name);
+                data.put("snippet", description);
 
                 DocumentReference newMarker = fStore.collection("Locations").document();
 
@@ -195,6 +301,7 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
         });
 
         builder.show();
+
     }
 
 
@@ -224,7 +331,6 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-
         return false;
     }
 
@@ -236,58 +342,98 @@ public class GoogleMapsAdmin extends AppCompatActivity implements OnMapReadyCall
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
                 if (e != null) {
-
+                    e.printStackTrace();
                 }
-
+                String description = "";
+                String name = "";
+                double latitude = 0;
+                double longitude = 0;
+                LatLng location = null;
                 for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
 
-                    double lat = Double.parseDouble(dc.getDocument().getData().get("latitude").toString());
-                    double lon = Double.parseDouble(dc.getDocument().getData().get("longitude").toString());
-                    String name = dc.getDocument().getData().get("name").toString();
-                    LatLng location = new LatLng(lat, lon);
+                    Object lat = dc.getDocument().getString("latitude");
+                    Object lon = dc.getDocument().getString("longitude");
+                    Object nam = dc.getDocument().getData().get("name");
+                    Object snip = dc.getDocument().getData().get("snippet");
 
-//                    MarkerOptions mo = new MarkerOptions().position(location).title(name);
-//                    markerOList.add(mo);
-                    mMap.addMarker(new MarkerOptions().position(location).title(name));
+                    if (lat != null) {
+                        latitude = Double.parseDouble((String) lat);
+                    }
+                    if (lon != null) {
+                        longitude = Double.parseDouble((String) lon);
+                    }
+                    if (nam != null) {
+                        name = nam.toString();
+                    }
+                    if (snip != null) {
+                        description = snip.toString();
+                    }
+                    if (latitude != 0 && longitude != 0) {
+                        location = new LatLng(latitude, longitude);
+                    }
+                    if (location != null) {
+                        if(fav != null && fav.contains(name)) {
+                            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        }else{
+                            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(description).draggable(true));
+                        }
+                    }
 
+                    description = "";
+                    nam = "";
+                    latitude = 0;
+                    longitude = 0;
+                    location = null;
                 }
             }
         });
     }
 
-    //  Get text from user
-    private String getText() {
-        // Init the dialog object
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter text");
 
-// Set up the input
-        final EditText input = new EditText(this);
+    // override the onOptionsItemSelected()
+    // function to implement
+    // the item click listener callback
+    // to open and close the navigation
+    // drawer when the icon is clicked
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
 
-// Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-
-        return input.getText().toString();
     }
 
+    public void catchGoogleMapsException(final Context context) {
+        try {
+            SharedPreferences hasFixedGoogleBug154855417 = getSharedPreferences("google_bug_154855417", Context.MODE_PRIVATE);
+            if (!hasFixedGoogleBug154855417.contains("fixed")) {
+                File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
+                File corruptedSavedClientParameters = new File(getFilesDir(), "SavedClientParameters.data.cs");
+                File corruptedClientParametersData =
+                        new File(
+                                getFilesDir(),
+                                "DATA_ServerControlledParametersManager.data."
+                                        + getBaseContext().getPackageName());
+                File corruptedClientParametersDataV1 =
+                        new File(
+                                getFilesDir(),
+                                "DATA_ServerControlledParametersManager.data.v1."
+                                        + getBaseContext().getPackageName());
+                corruptedZoomTables.delete();
+                corruptedSavedClientParameters.delete();
+                corruptedClientParametersData.delete();
+                corruptedClientParametersDataV1.delete();
+                hasFixedGoogleBug154855417.edit().putBoolean("fixed", true).apply();
+            }
+        } catch (Exception e) {
+
+        }
+
+    }
 }
 
 
