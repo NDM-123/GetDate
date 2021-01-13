@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -115,6 +114,7 @@ public class Admin extends AppCompatActivity {
         searchBar.setThreshold(1);
         searchBar.setAdapter(adapter);
 
+
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
         drawerLayout = findViewById(R.id.my_drawer_layout);
@@ -168,8 +168,9 @@ public class Admin extends AppCompatActivity {
             }
         });
 
-    }
 
+
+    }
 
     // override the onOptionsItemSelected()
     // function to implement

@@ -27,7 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo4" />
-
         <TextView
             android:id="@+id/removeText"
             android:layout_width="146dp"
@@ -52,7 +51,7 @@
             android:layout_marginTop="478dp"
             android:layout_marginEnd="104dp"
             android:layout_marginBottom="224dp"
-            android:text="Remove By Coordinates"
+            android:text="Remove By Cordinate"
             android:textSize="36sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
