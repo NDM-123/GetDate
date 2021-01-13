@@ -18,9 +18,15 @@
             android:id="@+id/app_logo"
             android:layout_width="383dp"
             android:layout_height="233dp"
-            app:srcCompat="@drawable/logo4"
-            tools:layout_editor_absoluteX="14dp"
-            tools:layout_editor_absoluteY="16dp" />
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="482dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo4" />
 
         <TextView
             android:id="@+id/removeText"
@@ -46,7 +52,7 @@
             android:layout_marginTop="478dp"
             android:layout_marginEnd="104dp"
             android:layout_marginBottom="224dp"
-            android:text="Remove By Cordinate"
+            android:text="Remove By Coordinates"
             android:textSize="36sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -56,7 +56,7 @@ public class AddPlace extends AppCompatActivity {
         addPlacebtn = findViewById(R.id.addbutton);
         btnChoose = (Button) findViewById(R.id.btnChoose);
         btnUpload = (Button) findViewById(R.id.btnUpload);
-        imageView = (ImageView) findViewById(R.id.imgView);
+        //imageView = (ImageView) findViewById(R.id.imgView);
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
