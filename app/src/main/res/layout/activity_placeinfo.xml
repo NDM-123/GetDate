@@ -10,167 +10,218 @@
     android:background="@drawable/sea1">
 
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favorite"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/locPicture"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="106dp"
-        app:layout_constraintBottom_toTopOf="@+id/navwithgm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/favorite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/locname"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="Name"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/submit_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+        <ImageView
+            android:id="@+id/locPicture"
+            android:layout_width="302dp"
+            android:layout_height="178dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="468dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.676" />
 
-    <TextView
-        android:id="@+id/locdescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="13dp"
-        android:gravity="center"
-        android:text="Description"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/addFavorite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locPicture" />
-
-    <Button
-        android:id="@+id/addFavorite"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="26dp"
-        android:text="Add to Favorite"
-        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
-        app:layout_constraintEnd_toStartOf="@+id/navwithgm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locdescription" />
-
-    <Button
-        android:id="@+id/navwithgm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="166dp"
-        android:text="Navigate with google maps"
-        app:layout_constraintBottom_toTopOf="@+id/submit_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addFavorite"
-        app:layout_constraintTop_toBottomOf="@+id/locPicture" />
-
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
-        android:layout_marginEnd="61dp"
-        android:layout_marginBottom="113dp"
-        android:background="#919091"
-        android:numStars="5"
-        android:rating="1"
-        app:layout_constraintBottom_toTopOf="@+id/locname"
-        app:layout_constraintEnd_toEndOf="@+id/navwithgm"
-        app:layout_constraintStart_toStartOf="@+id/locdescription"
-        app:layout_constraintTop_toBottomOf="@+id/addFavorite"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <Button
-        android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="24dp"
-        android:background="#A8A7A7"
-        android:onClick="submitRating"
-        android:text="Submit"
-        app:layout_constraintBottom_toTopOf="@+id/backHome"
-        app:layout_constraintEnd_toStartOf="@+id/backHome"
-        app:layout_constraintStart_toEndOf="@+id/locname"
-        app:layout_constraintTop_toBottomOf="@+id/navwithgm"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <Button
-        android:id="@+id/backHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="#A8A7A7"
-        android:onClick="submitRating"
-        android:text="back Home Page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/submit_button"
-        app:layout_constraintTop_toBottomOf="@+id/submit_button"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/ratingSum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:textColorHint="@color/colorAccent"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submit_button"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <ImageButton
-        android:id="@+id/waze_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="258dp"
-        android:layout_marginTop="595dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="81dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/waze_image" />
+        <TextView
+            android:id="@+id/locdescription"
+            android:layout_width="341dp"
+            android:layout_height="83dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="263dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="385dp"
+            android:gravity="center"
+            android:text="Description"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/addFavorite"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="51dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="298dp"
+            android:layout_marginTop="656dp"
+            android:layout_marginEnd="62dp"
+            android:layout_marginBottom="33dp"
+            android:background="@drawable/favorite3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/removeLocText"
+            android:layout_width="65dp"
+            android:layout_height="28dp"
+
+            android:layout_marginStart="294dp"
+            android:layout_marginTop="632dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginBottom="71dp"
+            android:text="Favorite"
+            android:textColor="#F9FBFB"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="238dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="66dp"
+            android:layout_marginTop="387dp"
+            android:layout_marginEnd="107dp"
+            android:layout_marginBottom="303dp"
+            android:background="#8B909191"
+            android:numStars="5"
+            android:rating="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="57dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="305dp"
+            android:layout_marginTop="387dp"
+            android:layout_marginEnd="49dp"
+            android:layout_marginBottom="300dp"
+            android:background="@drawable/submit"
+            android:onClick="submitRating"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <Button
+            android:id="@+id/backHome"
+            android:layout_width="55dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginEnd="350dp"
+            android:layout_marginBottom="656dp"
+            android:background="@drawable/backhome"
+            android:onClick="submitRating"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <TextView
+            android:id="@+id/ratingSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submit_button"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+
+        <Button
+            android:id="@+id/navwithgm"
+            android:layout_width="48dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="181dp"
+            android:layout_marginTop="653dp"
+            android:layout_marginEnd="182dp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/googlemapsicon"
+
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:srcCompat="@drawable/googlemapsicon" />
+
+        <TextView
+            android:id="@+id/searchtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="178dp"
+            android:layout_marginTop="632dp"
+            android:layout_marginEnd="177dp"
+            android:layout_marginBottom="75dp"
+            android:text="Google Map"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/waze_button"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="61dp"
+            android:layout_marginTop="653dp"
+            android:layout_marginEnd="300dp"
+            android:layout_marginBottom="33dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="#FFFFFF"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/waze_image2" />
+
+        <TextView
+            android:id="@+id/WazeText"
+            android:layout_width="49dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="632dp"
+            android:layout_marginEnd="300dp"
+            android:layout_marginBottom="69dp"
+            android:text="Waze"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.navigation.NavigationView

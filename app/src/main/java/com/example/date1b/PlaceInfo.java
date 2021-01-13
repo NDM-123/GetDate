@@ -73,7 +73,7 @@ public class PlaceInfo extends AppCompatActivity{
         name = data.getString("name");
 
         image = findViewById(R.id.locPicture);
-        tvName = findViewById(R.id.locname);
+        //tvName = findViewById(R.id.locname);
         TextView tvDesc = findViewById(R.id.locdescription);
         navigateGoogle = findViewById(R.id.navwithgm);
         rt = (RatingBar) findViewById(R.id.ratingBar);
@@ -352,7 +352,7 @@ public class PlaceInfo extends AppCompatActivity{
                                 firebaseRate = r;
                                 String ra = "The rating is: " + firebaseRate;
                                 System.out.println(ra);
-                                tvName.setText(ra);
+                                //tvName.setText(ra);
                                 rt.setRating(r);
                                 return;
                             }
