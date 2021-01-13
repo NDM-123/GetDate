@@ -10,92 +10,135 @@
     android:layout_height="match_parent"
     android:background="@drawable/flyball">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/app_logo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/removeText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo4" />
+            android:layout_width="383dp"
+            android:layout_height="233dp"
+            app:srcCompat="@drawable/logo4"
+            tools:layout_editor_absoluteX="14dp"
+            tools:layout_editor_absoluteY="16dp" />
 
         <TextView
             android:id="@+id/removeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="Remove location"
-            app:layout_constraintBottom_toTopOf="@+id/autoCompleteSearchBar"
-            app:layout_constraintEnd_toEndOf="@+id/autoCompleteSearchBar"
-            app:layout_constraintStart_toStartOf="@+id/autoCompleteSearchBar"
-            app:layout_constraintTop_toBottomOf="@+id/app_logo" />
+            android:layout_width="146dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="132dp"
+            android:layout_marginTop="268dp"
+            android:layout_marginEnd="133dp"
+            android:layout_marginBottom="421dp"
+            android:text="Remove By Name"
+            android:textSize="36sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/removeText2"
+            android:layout_width="207dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="478dp"
+            android:layout_marginEnd="104dp"
+            android:layout_marginBottom="224dp"
+            android:text="Remove By Cordinate"
+            android:textSize="36sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteSearchBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/removemylocation"
+            android:layout_width="238dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="86dp"
+            android:layout_marginTop="320dp"
+            android:layout_marginEnd="87dp"
+            android:layout_marginBottom="387dp"
+            android:background="#E1ECE5"
             android:dropDownWidth="200dp"
             android:dropDownHorizontalOffset="-30dp"
+            android:ellipsize="end"
+            android:textColor="#301F07"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/removeText"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Enter location name" />
 
         <EditText
             android:id="@+id/editLatitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="101dp"
+            android:layout_marginTop="527dp"
+            android:layout_marginEnd="101dp"
+            android:layout_marginBottom="180dp"
+            android:background="#E1ECE5"
+            android:ellipsize="end"
             android:ems="10"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/editLongitude"
+            android:textColor="#301F07"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/removemylocation"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Latitude" />
 
         <EditText
             android:id="@+id/editLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="567dp"
+            android:layout_marginEnd="101dp"
+            android:layout_marginBottom="140dp"
+            android:background="#E1ECE5"
+            android:ellipsize="end"
             android:ems="10"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/submitRemove"
-            app:layout_constraintStart_toStartOf="@+id/editLatitude"
-            app:layout_constraintTop_toBottomOf="@+id/editLatitude"
+            android:textColor="#301F07"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Longitude" />
 
         <Button
             android:id="@+id/submitRemove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="150dp"
-            android:text="Submit"
+            android:layout_width="99dp"
+            android:layout_height="78dp"
+            android:layout_marginStart="156dp"
+            android:layout_marginTop="614dp"
+            android:layout_marginEnd="156dp"
+            android:layout_marginBottom="39dp"
+            android:background="@drawable/removeplace"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editLongitude"
-            app:layout_constraintStart_toStartOf="@+id/editLongitude"
-            app:layout_constraintTop_toBottomOf="@+id/editLongitude" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/removemylocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="105dp"
-            android:text="Remove my location"
-            app:layout_constraintBottom_toTopOf="@+id/editLatitude"
-            app:layout_constraintStart_toStartOf="@+id/autoCompleteSearchBar"
-            app:layout_constraintTop_toBottomOf="@+id/autoCompleteSearchBar" />
+            android:layout_width="76dp"
+            android:layout_height="62dp"
+            android:layout_marginStart="167dp"
+
+            android:layout_marginTop="352dp"
+            android:layout_marginEnd="168dp"
+            android:layout_marginBottom="317dp"
+            android:background="@drawable/delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
