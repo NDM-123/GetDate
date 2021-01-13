@@ -42,11 +42,11 @@ public class Admin extends AppCompatActivity {
         setTitle("Place the date");
         mStorageRef = FirebaseStorage.getInstance().getReference();
         // Logout button with a listener
-        logout = findViewById(R.id.logoutBtn);
+        //logout = findViewById(R.id.logoutBtn);
         removePlace = findViewById(R.id.removeLocationBtn);
         searchBar = findViewById(R.id.SearchBar);
         searchT = findViewById(R.id.SearchTextBtn);
-        advSearch = findViewById(R.id.AdvSearchBtn);
+        //advSearch = findViewById(R.id.AdvSearchBtn);
         navigate = findViewById(R.id.NavMap);
 
         searchBar.setOnClickListener(new View.OnClickListener() {
@@ -56,14 +56,14 @@ public class Admin extends AppCompatActivity {
                 searchBar.setText("");
             }
         });
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login.class));
-                finish();
-            }
-        });
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(getApplicationContext(), Login.class));
+//                finish();
+//            }
+//        });
         navigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,13 +86,13 @@ public class Admin extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RemoveLocation.class));
             }
         });
-        advSearch.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RemoveLocation.class));
-            }
-        });
+//        advSearch.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(), RemoveLocation.class));
+//            }
+//        });
 
 
         // drawer layout instance to toggle the menu icon to open
