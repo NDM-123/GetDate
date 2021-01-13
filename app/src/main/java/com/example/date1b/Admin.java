@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,6 +26,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 public class Admin extends AppCompatActivity {
     StorageReference mStorageRef;
@@ -34,6 +38,8 @@ public class Admin extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
     String namBtn;
+    ArrayList<String> al = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +99,21 @@ public class Admin extends AppCompatActivity {
 //                startActivity(new Intent(getApplicationContext(), RemoveLocation.class));
 //            }
 //        });
+        fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null) {
 
+                }
+                for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
+                    String name = dc.getDocument().getData().get("name").toString();
+                    al.add(name);
+                }
+            }
+        });
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, al);
+        searchBar.setThreshold(1);
+        searchBar.setAdapter(adapter);
 
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
