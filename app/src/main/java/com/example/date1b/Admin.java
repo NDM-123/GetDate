@@ -10,22 +10,30 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class Admin extends AppCompatActivity {
     StorageReference mStorageRef;
+    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
     Button logout, removePlace, searchT, advSearch;
     AutoCompleteTextView searchBar;
     ImageButton navigate;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    String namBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,32 +73,7 @@ public class Admin extends AppCompatActivity {
         searchT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-//
-//                        if (e != null) {
-//
-//                        }
-//                        ArrayList<MarkerInfo> al = new ArrayList<MarkerInfo>();
-//                        for (DocumentChange dc : documentSnapshots.getDocumentChanges()) {
-//
-//                            String lat = (dc.getDocument().getData().get("latitude").toString());
-//                            String lon = (dc.getDocument().getData().get("longitude").toString());
-//                            String name = dc.getDocument().getData().get("name").toString();
-//                            // LatLng location = new LatLng(lat, lon);
-//                            MarkerInfo mi = new MarkerInfo(name, lat, lon);
-//
-//                            al.add(mi);
-//                        }
-                Intent intent = new Intent(getApplicationContext(), SearchText.class);
-
-                startActivity(intent);
-                //  Recieve string from search bar
-                String name = "";
-                intent.putExtra("name", name);
-                //     finish();
-
+                fromSearchToLocation();
             }
 
 
@@ -182,5 +165,31 @@ public class Admin extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
 
+    }
+
+    public void  fromSearchToLocation(){
+        //  Recieve string from search bar
+        namBtn = "";
+        namBtn = searchBar.getText().toString();
+        namBtn = searchBar.getText().toString().trim();
+        fStore.collection("Locations").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentSnapshot nameSnapshot : value.getDocuments()) {
+                    if (nameSnapshot.get("name").equals(namBtn)) {
+//                                nameSnapshot.getReference().delete();
+                        searchBar.setText("");
+                        Intent i = new Intent(getApplicationContext(), PlaceInfo.class);
+                        i.putExtra("name", (String)nameSnapshot.get("name"));
+                        i.putExtra("desc", (String)nameSnapshot.get("snippet"));
+                        i.putExtra("lat", (String)nameSnapshot.get("latitude"));
+                        i.putExtra("lan", (String)nameSnapshot.get("longitude"));
+                        startActivity(i);
+
+
+                    }
+                }
+            }
+        });
     }
 }

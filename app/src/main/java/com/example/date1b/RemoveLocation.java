@@ -31,7 +31,6 @@ public class RemoveLocation extends AppCompatActivity {
     ArrayList<String> al = new ArrayList<>();
     ArrayAdapter<String> adapter;
     Button removeLoc, submit;
-    String lat, lon;
     String nam;
     AutoCompleteTextView nameBar;
     public DrawerLayout drawerLayout;
@@ -42,7 +41,7 @@ public class RemoveLocation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remove_location);
-
+        setTitle("Place the date");
         nameBar = findViewById(R.id.autoCompleteSearchBar);
         removeLoc = findViewById(R.id.removemylocation);
         submit = findViewById(R.id.submitRemove);
